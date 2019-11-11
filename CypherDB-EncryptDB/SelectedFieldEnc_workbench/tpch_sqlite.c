@@ -1,0 +1,574 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <assert.h>
+#include <openssl/aes.h>
+
+#include "sqlite3.h"
+#include "record.h"
+#include "utils.h"
+#include "dbload.h"
+#include "print.h"
+#include "crypto.h"
+#include "sqlite3modify.h"
+#include "tpch_sqlite.h"
+#include "lineitem.h"
+#include "orders.h"
+#include "part.h"
+#include "customer.h"
+#include "supplier.h"
+#include "partsupp.h"
+#include "nation.h"
+#include "region.h"
+#include "lineitem_sqlite.h"
+#include "orders_sqlite.h"
+#include "part_sqlite.h"
+#include "customer_sqlite.h"
+#include "supplier_sqlite.h"
+#include "partsupp_sqlite.h"
+#include "nation_sqlite.h"
+#include "region_sqlite.h"
+
+FILE *fileOpen(char *directory, const char *fileName)
+{
+  char dbFilePath[100];
+  FILE *fp;
+
+  strcpy(dbFilePath, directory);
+  strcat(dbFilePath, "/");
+  strcat(dbFilePath, fileName);
+  fp = fopen(dbFilePath, "rb");
+  return fp;
+}
+
+void *sqlite3Open(sqlite3 **db, char *directory, const char *fileName)
+{
+  char dbFilePath[100];
+  char *zErrMsg = 0;
+  int rc;
+
+  strcpy(dbFilePath, directory);
+  strcat(dbFilePath, "/");
+  strcat(dbFilePath, fileName);
+  printf("%s \n", dbFilePath);
+  rc = sqlite3_open(dbFilePath, &(*db));
+  if( rc )
+    {
+      fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+      sqlite3_close(db);
+    }
+}
+
+void *sqlite3Init(sqlite3 *db)
+{
+  char *zErrMsg = 0;
+  int rc;
+
+  rc = sqlite3_exec(db, "PRAGMA journal_mode=off;", callback, 0, &zErrMsg);
+  if( rc!=SQLITE_OK ){
+    fprintf(stderr, "SQL error: %s\n", zErrMsg);
+    sqlite3_free(zErrMsg);
+  }
+  rc = sqlite3_exec(db, "PRAGMA page_size = 4096;", callback, 0, &zErrMsg);
+  if( rc!=SQLITE_OK ){
+    fprintf(stderr, "SQL error: %s\n", zErrMsg);
+    sqlite3_free(zErrMsg);
+  }
+}
+
+void *sqlite3Close(sqlite3 *db)
+{
+  int rc;
+  rc = sqlite3_close(&db);
+}
+
+void *sqlite3InputSchema(sqlite3 *db, char *createTable)
+{
+  char *zErrMsg = 0;
+  int rc;
+
+  printf("%s \n", createTable);
+  rc = sqlite3_exec(db, createTable, callback, 0, &zErrMsg);
+  if( rc!=SQLITE_OK ){
+    fprintf(stderr, "SQL error: %s\n", zErrMsg);
+    sqlite3_free(zErrMsg);
+  }
+}
+
+/* change this function for a new or modified table */
+void *tpchInputSchema(sqlite3 *db)
+{
+  char *tableSchema;
+
+  /* generate item table schema */
+  itemSchemaGen(&tableSchema); 
+  sqlite3InputSchema(db, tableSchema);
+  free(tableSchema);
+  /* generate orders table schema */
+  ordersSchemaGen(&tableSchema);
+  sqlite3InputSchema(db, tableSchema);
+  free(tableSchema);
+  /* generate part table schema */
+  partSchemaGen(&tableSchema);
+  sqlite3InputSchema(db, tableSchema);
+  free(tableSchema);
+  /* generate customer table schema */
+  customerSchemaGen(&tableSchema);
+  sqlite3InputSchema(db, tableSchema);
+  free(tableSchema);
+  /* generate supplier table schema */
+  supplierSchemaGen(&tableSchema);
+  sqlite3InputSchema(db, tableSchema);
+  free(tableSchema);
+  /* generate partsupp table schema */
+  partSuppSchemaGen(&tableSchema);
+  sqlite3InputSchema(db, tableSchema);
+  free(tableSchema);
+  /* generate nation table schema */
+  nationSchemaGen(&tableSchema);
+  sqlite3InputSchema(db, tableSchema);
+  free(tableSchema);
+  /* generate region table schema */
+  regionSchemaGen(&tableSchema);
+  sqlite3InputSchema(db, tableSchema);
+  free(tableSchema);
+}
+
+/* change this function for a new or modified table */
+void *tpchTemplateGen(char *path, float scale)
+{
+  itemTemplateGen(path, scale);
+  ordersTemplateGen(path, scale);
+  partTemplateGen(path,scale);
+  customerTemplateGen(path,scale);
+  supplierTemplateGen(path,scale);
+  partSuppTemplateGen(path,scale);
+  nationTemplateGen(path,scale);
+  regionTemplateGen(path,scale);
+}
+
+/* change this function for a new or modified table */
+void *tpchInputTemplate(char *directory, char *fileName, int numOfTable, int *pagePerTable)
+{
+  char dbFilePath[100];
+  char systemStmt[100];
+  char *zErrMsg = 0;
+  int rc, pageSize, numOfPage, i;
+  FILE *dbfp;
+
+  strcpy(dbFilePath, directory);
+  strcat(dbFilePath, "/");
+  strcat(dbFilePath, fileName);
+
+  strcpy(systemStmt, "sqlite3 ");
+  strcat(systemStmt, dbFilePath);
+
+  for (i=0; i<numOfTable; i++)
+    {
+      fprintf(stdout, "Please import the tbl file into sqlite3 db file: \n");
+      switch (i) 
+	{
+	case 0:
+	  fprintf(stdout, "\t1. .import /home/bony/PhD/CypherDB-database/db_cipher/tpch/lineitemTemplate.tbl lineitem \n");
+	  break;
+	case 1:
+	  fprintf(stdout, "\t1. .import /home/bony/PhD/CypherDB-database/db_cipher/tpch/ordersTemplate.tbl orders \n");
+	  break;
+	case 2:
+	  fprintf(stdout, "\t1. .import /home/bony/PhD/CypherDB-database/db_cipher/tpch/partTemplate.tbl part \n");
+	  break;
+	case 3:
+	  fprintf(stdout, "\t1. .import /home/bony/PhD/CypherDB-database/db_cipher/tpch/customerTemplate.tbl customer \n");
+	  break;
+	case 4:
+	  fprintf(stdout, "\t1. .import /home/bony/PhD/CypherDB-database/db_cipher/tpch/supplierTemplate.tbl supplier \n");
+	  break;
+        case 5:
+	  fprintf(stdout, "\t1. .import /home/bony/PhD/CypherDB-database/db_cipher/tpch/partSuppTemplate.tbl partSupp \n");
+	  break;
+        case 6:
+	  fprintf(stdout, "\t1. .import /home/bony/PhD/CypherDB-database/db_cipher/tpch/nationTemplate.tbl nation \n");
+	  break;
+        case 7:
+	  fprintf(stdout, "\t1. .import /home/bony/PhD/CypherDB-database/db_cipher/tpch/regionTemplate.tbl region \n");
+	  break;
+	default:
+	  fprintf(stdout, "exceed table limit \n");
+	  break;
+	}
+      fprintf(stdout, "\t2. .quit \n");
+      system(systemStmt); 
+      dbfp = fopen(dbFilePath, "rb");
+      getDBHeader(dbfp, &pageSize, &numOfPage);
+      pagePerTable[i] = numOfPage-1-numOfTable;  /* minus the first few database page */
+      printf("total number of page = %d \n",  pagePerTable[i]);
+      fclose(dbfp);
+    }
+  // create index
+  fprintf(stdout, "create index PartPKI on Part(p_partkeyOPE); \n create index SupplierPK on Supplier(s_suppkeyOPE); \n create index PartSuppPKI on PartSupp(ps_partkeyOPE, ps_suppkeyOPE); \n create index CustomerPKI on Customer(c_custkeyOPE); \n create index NationPKI on Nation(n_nationkeyOPE); \n create index RegionPKI on Region(r_regionkeyOPE); \n create index LineItemPKI on LineItem(l_orderkeyOPE); \n create index OrdersPKI on Orders(o_orderkeyOPE); \n create index SupplierNations on Supplier(s_nationkeyOPE); \n create index CustomerNations on Customer(c_nationkeyOPE); \n create index LineItemSuppliers on LineItem(l_suppkeyOPE); \n create index OrderCustomers on Orders(o_custKeyOPE); \n create index PartSuppSupp on PartSupp(ps_suppkeyOPE); \n create index LineItemParts on LineItem(l_partkeyOPE); \n");
+
+  system(systemStmt); 
+}
+
+/* change this function for a new or modified table */
+void *tpchInputTest(sqlite3 *db)
+{
+  char *zErrMsg = 0;
+  int rc;
+  rc = sqlite3_exec(db, "select count(*) from lineitem", callback, 0, &zErrMsg);
+  if( rc!=SQLITE_OK ){
+    fprintf(stderr, "SQL error: %s\n", zErrMsg);
+    sqlite3_free(zErrMsg);
+  }
+  rc = sqlite3_exec(db, "select count(*) from orders", callback, 0, &zErrMsg);
+  if( rc!=SQLITE_OK ){
+    fprintf(stderr, "SQL error: %s\n", zErrMsg);
+    sqlite3_free(zErrMsg);
+  }
+  rc = sqlite3_exec(db, "select count(*) from part", callback, 0, &zErrMsg);
+  if( rc!=SQLITE_OK ){
+    fprintf(stderr, "SQL error: %s\n", zErrMsg);
+    sqlite3_free(zErrMsg);
+  }
+  rc = sqlite3_exec(db, "select count(*) from customer", callback, 0, &zErrMsg);
+  if( rc!=SQLITE_OK ){
+    fprintf(stderr, "SQL error: %s\n", zErrMsg);
+    sqlite3_free(zErrMsg);
+  }
+  rc = sqlite3_exec(db, "select count(*) from supplier", callback, 0, &zErrMsg);
+  if( rc!=SQLITE_OK ){
+    fprintf(stderr, "SQL error: %s\n", zErrMsg);
+    sqlite3_free(zErrMsg);
+  }
+  rc = sqlite3_exec(db, "select count(*) from partSupp", callback, 0, &zErrMsg);
+  if( rc!=SQLITE_OK ){
+    fprintf(stderr, "SQL error: %s\n", zErrMsg);
+    sqlite3_free(zErrMsg);
+  }
+  rc = sqlite3_exec(db, "select count(*) from nation", callback, 0, &zErrMsg);
+  if( rc!=SQLITE_OK ){
+    fprintf(stderr, "SQL error: %s\n", zErrMsg);
+    sqlite3_free(zErrMsg);
+  }
+  rc = sqlite3_exec(db, "select count(*) from region", callback, 0, &zErrMsg);
+  if( rc!=SQLITE_OK ){
+    fprintf(stderr, "SQL error: %s\n", zErrMsg);
+    sqlite3_free(zErrMsg);
+  }
+}
+
+/* change this function for a new or modified table */
+void tpchEncryptTables(float scale, int numOfTable, lineitem *itemPt, lineitemOTP *itemOTPPt, 
+		       orders *orderPt, ordersOTP *ordersOTPPt, 
+		       part *partPt, partOTP *partOTPPt,
+		       customer *customerPt, customerOTP *customerOTPPt,
+		       supplier *supplierPt, supplierOTP *supplierOTPPt,
+		       partSupp *partSuppPt, partSuppOTP *partSuppOTPPt,
+		       nation *nationPt, nationOTP *nationOTPPt,
+		       region *regionPt, regionOTP *regionOTPPt)
+{
+  int i, j;
+  FILE *ifp, *ofp;
+  AES_KEY aesex, aesdx;
+  unsigned char key[AES_BLOCK_SIZE];
+  unsigned char seed[AES_BLOCK_SIZE];
+
+  for (i=0;i<numOfTable;i++)
+    {
+
+      switch(i) {
+      case 0:	
+	/* set aes key and seed*/
+	setKey(key);
+	aes_128_init(&aesex, &aesdx, key);
+	setSeed(seed, 2);	        
+	ifp = fopen(itemEncFilePath, "r");
+	ofp = fopen(itemCipherDebugPath, "wb");
+	for (j=0; j<ITEMMAX*scale; j++)
+	  {
+	    readItem(&itemPt[j], ifp);
+	    itemOTP_malloc(&itemOTPPt[j], &itemPt[j]);
+	    encryptItem(&itemPt[j], &itemOTPPt[j], &aesex, seed);
+	    incr_row_128(seed, 1);
+	    printItemOTP(&itemOTPPt[j], &itemPt[j], ofp);
+	  }
+	fclose(ifp);
+	fclose(ofp);
+	fprintf(stderr, "Table lineitem encryption done... \n");
+	break;
+      case 1:		
+
+	/* set aes key and seed*/	
+	setKey(key);
+	aes_128_init(&aesex, &aesdx, key);
+	setSeed(seed, 3);
+
+	ifp = fopen(ordersEncFilePath, "r");
+	ofp = fopen(ordersCipherDebugPath, "wb");
+	for (j=0; j<ORDERSMAX*scale; j++)
+	  {
+	    readOrders(&orderPt[j], ifp);
+	    ordersOTP_malloc(&ordersOTPPt[j], &orderPt[j]);
+	    encryptOrders(&orderPt[j], &ordersOTPPt[j], &aesex, seed);
+	    incr_row_128(seed, 1);
+	    printOrdersOTP(&ordersOTPPt[j], &orderPt[j], ofp);
+	  }
+	fclose(ifp);
+	fclose(ofp);
+	fprintf(stderr, "Table orders encryption done... \n");
+	break;
+      case 2:		
+
+	/* set aes key and seed*/	
+	setKey(key);
+	aes_128_init(&aesex, &aesdx, key);
+	setSeed(seed, 4);
+
+	ifp = fopen(partEncFilePath, "r");
+	ofp = fopen(partCipherDebugPath, "wb");
+	for (j=0; j<PARTMAX*scale; j++)
+	  {
+	    readPart(&partPt[j], ifp);
+	    partOTP_malloc(&partOTPPt[j], &partPt[j]);
+	    encryptPart(&partPt[j], &partOTPPt[j], &aesex, seed);
+	    incr_row_128(seed, 1);
+	    printPartOTP(&partOTPPt[j], &partPt[j], ofp);
+	  }
+	fclose(ifp);
+	fclose(ofp);
+	fprintf(stderr, "Table part encryption done... \n");
+	break;
+      case 3:		
+
+	/* set aes key and seed*/	
+	setKey(key);
+	aes_128_init(&aesex, &aesdx, key);
+	setSeed(seed, 5);
+
+	ifp = fopen(customerEncFilePath, "r");
+	ofp = fopen(customerCipherDebugPath, "wb");
+	for (j=0; j<CUSTOMERMAX*scale; j++)
+	  {
+	    readCustomer(&customerPt[j], ifp);
+	    customerOTP_malloc(&customerOTPPt[j], &customerPt[j]);
+	    encryptCustomer(&customerPt[j], &customerOTPPt[j], &aesex, seed);
+	    incr_row_128(seed, 1);
+	    printCustomerOTP(&customerOTPPt[j], &customerPt[j], ofp);
+	  }
+	fclose(ifp);
+	fclose(ofp);
+	fprintf(stderr, "Table customer encryption done... \n");
+	break;
+      case 4:		
+
+	/* set aes key and seed*/	
+	setKey(key);
+	aes_128_init(&aesex, &aesdx, key);
+	setSeed(seed, 6);
+
+	ifp = fopen(supplierEncFilePath, "r");
+	ofp = fopen(supplierCipherDebugPath, "wb");
+	for (j=0; j<SUPPLIERMAX*scale; j++)
+	  {
+	    readSupplier(&supplierPt[j], ifp);
+	    supplierOTP_malloc(&supplierOTPPt[j], &supplierPt[j]);
+	    encryptSupplier(&supplierPt[j], &supplierOTPPt[j], &aesex, seed);
+	    incr_row_128(seed, 1);
+	    printSupplierOTP(&supplierOTPPt[j], &supplierPt[j], ofp);
+	  }
+	fclose(ifp);
+	fclose(ofp);
+	fprintf(stderr, "Table supplier encryption done... \n");
+	break;
+      case 5:		
+
+	/* set aes key and seed*/	
+	setKey(key);
+	aes_128_init(&aesex, &aesdx, key);
+	setSeed(seed, 7);
+
+	ifp = fopen(partSuppEncFilePath, "r");
+	ofp = fopen(partSuppCipherDebugPath, "wb");
+	for (j=0; j<PARTSUPPMAX*scale; j++)
+	  {
+	    readPartSupp(&partSuppPt[j], ifp);
+	    partSuppOTP_malloc(&partSuppOTPPt[j], &partSuppPt[j]);
+	    encryptPartSupp(&partSuppPt[j], &partSuppOTPPt[j], &aesex, seed);
+	    incr_row_128(seed, 1);
+	    printPartSuppOTP(&partSuppOTPPt[j], &partSuppPt[j], ofp);
+	  }
+	fclose(ifp);
+	fclose(ofp);
+	fprintf(stderr, "Table partSupp encryption done... \n");
+	break;
+      case 6:		
+
+	/* set aes key and seed*/	
+	setKey(key);
+	aes_128_init(&aesex, &aesdx, key);
+	setSeed(seed, 8);
+
+	ifp = fopen(nationEncFilePath, "r");
+	ofp = fopen(nationCipherDebugPath, "wb");
+	for (j=0; j<NATIONMAX*1; j++)
+	  {
+	    readNation(&nationPt[j], ifp);
+	    nationOTP_malloc(&nationOTPPt[j], &nationPt[j]);
+	    encryptNation(&nationPt[j], &nationOTPPt[j], &aesex, seed);
+	    incr_row_128(seed, 1);
+	    printNationOTP(&nationOTPPt[j], &nationPt[j], ofp);
+	  }
+	fclose(ifp);
+	fclose(ofp);
+	fprintf(stderr, "Table nation encryption done... \n");
+	break;
+      case 7:		
+
+	/* set aes key and seed*/	
+	setKey(key);
+	aes_128_init(&aesex, &aesdx, key);
+	setSeed(seed, 9);
+
+	ifp = fopen(regionEncFilePath, "r");
+	ofp = fopen(regionCipherDebugPath, "wb");
+	for (j=0; j<REGIONMAX*1; j++)
+	  {
+	    readRegion(&regionPt[j], ifp);
+	    regionOTP_malloc(&regionOTPPt[j], &regionPt[j]);
+	    encryptRegion(&regionPt[j], &regionOTPPt[j], &aesex, seed);
+	    incr_row_128(seed, 1);
+	    printRegionOTP(&regionOTPPt[j], &regionPt[j], ofp);
+	  }
+	fclose(ifp);
+	fclose(ofp);
+	fprintf(stderr, "Table region encryption done... \n");
+	break;
+      default:
+	break;
+      }
+    }
+}
+
+/* change this function for a new or modified table */
+void * tpchSqliteModify(float scale, char *directory, int numOfTable, FILE *ofp)
+{
+  sqlite3 *db;
+  int *pagePerTable;
+  int count, i;
+  /* database modification paramters */
+  FILE *dbfp;
+  unsigned char *pageBuffer, *datapage;
+  int pageCount, pageCountWrite;
+  /* database header parameter */
+  int pageSize, numOfPage, cellCount, cellOffset, freeBytesCount, numOfItem, itemCount;
+  int frontPage;
+  /* tables parameter */
+  lineitem *item_t;
+  lineitemOTP *itemOTP_t;
+  orders *orders_t;
+  ordersOTP *ordersOTP_t;
+  part *part_t;
+  partOTP *partOTP_t;
+  customer *customer_t;
+  customerOTP *customerOTP_t;
+  supplier *supplier_t;
+  supplierOTP *supplierOTP_t;
+  partSupp *partSupp_t;
+  partSuppOTP *partSuppOTP_t;
+  nation *nation_t;
+  nationOTP *nationOTP_t;
+  region *region_t;
+  regionOTP *regionOTP_t;
+
+  /* memory allocation */
+  item_t = (lineitem *)calloc(ITEMMAX, sizeof(lineitem));
+  itemOTP_t = (lineitemOTP *)calloc(ITEMMAX, sizeof(lineitemOTP));
+  orders_t = (orders *)calloc(ORDERSMAX, sizeof(orders));
+  ordersOTP_t = (ordersOTP *)calloc(ORDERSMAX, sizeof(ordersOTP));
+  part_t = (part *)calloc(PARTMAX, sizeof(part));
+  partOTP_t = (partOTP *)calloc(PARTMAX, sizeof(partOTP));
+  customer_t = (customer *)calloc(CUSTOMERMAX, sizeof(customer));
+  customerOTP_t = (customerOTP *)calloc(CUSTOMERMAX, sizeof(customerOTP));
+  supplier_t = (supplier *)calloc(SUPPLIERMAX, sizeof(supplier));
+  supplierOTP_t = (supplierOTP *)calloc(SUPPLIERMAX, sizeof(supplierOTP));
+  partSupp_t = (partSupp *)calloc(PARTSUPPMAX, sizeof(partSupp));
+  partSuppOTP_t = (partSuppOTP *)calloc(PARTSUPPMAX, sizeof(partSuppOTP));
+  nation_t = (nation *)calloc(NATIONMAX, sizeof(nation));
+  nationOTP_t = (nationOTP *)calloc(NATIONMAX, sizeof(nationOTP));
+  region_t = (region *)calloc(REGIONMAX, sizeof(region));
+  regionOTP_t = (regionOTP *)calloc(REGIONMAX, sizeof(regionOTP));
+
+  /* initialize statistical parameter */
+  pageCount = 0;
+  pageCountWrite = 0;
+  itemCount = 0;
+
+  pagePerTable = (int *)malloc(numOfTable*sizeof(int));
+  
+  tpchEncryptTables(scale, numOfTable, item_t, itemOTP_t, orders_t, ordersOTP_t, part_t, partOTP_t, customer_t, customerOTP_t, supplier_t, supplierOTP_t, partSupp_t, partSuppOTP_t, nation_t, nationOTP_t, region_t, regionOTP_t);
+
+  sqlite3Open(&db, directory, "template.db");
+
+  sqlite3Init(db);
+
+  tpchInputSchema(db);
+
+  tpchTemplateGen(directory, scale);
+
+  tpchInputTemplate(directory, "template.db", numOfTable, pagePerTable);
+
+  tpchInputTest(db);
+  
+  /* don't know the page size yet, this function is to access the first 100B database header to read page size */
+  dbfp = fileOpen(directory, "template.db");
+  getDBHeader(dbfp, &pageSize, &numOfPage);
+  printf("total number of pages = %d \n", numOfPage);
+  fclose(dbfp);
+  /* this parameter can only be allocated with memory after accessing the database header */
+  pageBuffer = (unsigned char *)calloc(pageSize, sizeof(unsigned char));
+
+  dbfp = fileOpen(directory, "template.db");
+  /* read the first page at the beginning
+  ** first page must contain no user data
+  ** it is a dummy read on the file */
+  /* dummmy read */ readPage(dbfp, pageSize, pageBuffer, &pageCount);
+  /* dummy write */ writePage(ofp, pageSize, pageBuffer, &pageCountWrite);
+
+  /* after the first page is read, now read index pages of each table(numOfTable)*/
+  for (i=0; i<numOfTable; i++)
+    {
+      switch (i)
+	{
+	case 6: 
+	  pageCount += nationSqliteModify(dbfp, ofp, pageSize, (pagePerTable[6]-pagePerTable[5]), nation_t, nationOTP_t);
+	  break;
+	case 7:
+	  pageCount += regionSqliteModify(dbfp, ofp, pageSize, (pagePerTable[7]-pagePerTable[6]), region_t, regionOTP_t);
+	  break;
+	default:
+	  readPage(dbfp, pageSize, pageBuffer, &pageCount);
+	  if (!isDataPage(pageBuffer)) 
+	    writePage(ofp, pageSize, pageBuffer, &pageCountWrite);
+	  break;
+	}
+    }
+  free(pageBuffer);
+  pageCount = 1 + numOfTable;
+  /* /\* main functions to modify data page *\/ */
+  pageCount += itemSqliteModify(dbfp, ofp, pageSize, (pagePerTable[0]), item_t, itemOTP_t); 
+  pageCount += ordersSqliteModify(dbfp, ofp, pageSize, (pagePerTable[1]-pagePerTable[0]), orders_t, ordersOTP_t);
+  pageCount += partSqliteModify(dbfp, ofp, pageSize, (pagePerTable[2]-pagePerTable[1]), part_t, partOTP_t);
+  pageCount += customerSqliteModify(dbfp, ofp, pageSize, (pagePerTable[3]-pagePerTable[2]), customer_t, customerOTP_t);
+  pageCount += supplierSqliteModify(dbfp, ofp, pageSize, (pagePerTable[4]-pagePerTable[3]), supplier_t, supplierOTP_t);
+  pageCount += partSuppSqliteModify(dbfp, ofp, pageSize, (pagePerTable[5]-pagePerTable[4]), partSupp_t, partSuppOTP_t);
+  
+  for (i=pageCount; i<numOfPage; i++)
+    {
+       readPage(dbfp, pageSize, pageBuffer, &pageCount);
+       writePage(ofp, pageSize, pageBuffer, &pageCountWrite);
+    }
+  printf("pageCount = %d | total num of page = %d \n", pageCount, numOfPage);
+  assert(pageCount == numOfPage);
+  fclose(dbfp);
+  sqlite3Close(db);
+}

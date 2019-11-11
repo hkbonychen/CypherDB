@@ -1,0 +1,17 @@
+Command to generate the database file:
+
+./sqlite3dbGen /home/bony/PhD/CypherDB-database/db_cipher/tpch 1 /home/bony/PhD/CypherDB-database/db_cipher/cipher_tpch100MB_OPEIDX_temp.db
+
+/home/bony/PhD/CypherDB-database/db_cipher/tpch --> directory for storing temp files
+1 --> scale, max=100MB
+/home/bony/PhD/CypherDB-database/db_cipher/cipher_tpch100MB_OPEIDX_temp.db --> output database file
+
+Example (lineitem):
+itemEncFilePath "/home/bony/PhD/CypherDB-database/DBEncryptionv3/OPE/db/enc/lineitem600k.enc"
+itemCipherDebugPath "/home/bony/PhD/CypherDB-database/CypherDB_DBRewrite/debug/lineitem.ctr"
+#define ITEMMAX 600572
+
+Procedure:
+generate OPE entries in "/home/bony/PhD/CypherDB-database/DBEncryptionv3/OPE/db/enc"
+set the MAX row number
+

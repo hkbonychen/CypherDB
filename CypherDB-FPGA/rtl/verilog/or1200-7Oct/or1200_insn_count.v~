@@ -1,0 +1,38 @@
+//------------------------------
+// Module name: or1200_insn_count
+// Function: keep track of the instruction change and toggle the output
+// if a new instruction is detected in decoding stage
+// Creator:  Bony Chen
+// Version:  1.0
+// Date:     12 Jan 2015
+//------------------------------
+
+module or1200_insn_trace(
+			 clk,
+			 wb_freeze,
+			 wb_insn,
+			 except_flushpipe,
+			 ex_dslot,
+			 insn);
+
+   input clk;
+   input wb_freeze;
+   input wb_insn;
+   input except_flushpipe;
+   input ex_dslot;
+   output new_insn_detected;
+
+   reg 	  insn;
+
+   initial new_insn_detected = 0;
+   
+   always @(posedge clk)
+     if (!or1200_ctrl.wb_freeze) begin
+	if (((or1200_ctrl.wb_insn[31:26] != `OR1200_OR32_NOP) | !or1200_ctrl.wb_insn[16])
+	    & !(or1200_except.except_flushpipe & or1200_except.ex_dslot))
+	  insn <= ~insn;
+	else
+	  if (or1200_except.except_flushpipe)
+	    insn <= ~insn;
+     end       
+   

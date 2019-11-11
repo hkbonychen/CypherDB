@@ -1,0 +1,31 @@
+//------------------------------
+// Module name: or1200_encryption
+// Function: encrypt/decrpyt the data flowing from/to the load-store 
+// unit to/from the cache memory
+// Creator:  Bony Chen
+// Version:  1.0
+// Date:     12 Jan 2015
+//------------------------------
+
+module or1200_encryption(
+			 clk,
+			 rst,
+			 dataIn1,
+			 dataOut1,
+			 dataIn2,
+			 dataOut2,
+			 stall,
+			 unstall);
+
+   input clk;
+   input rst;
+   input dataIn1;
+   input dataOut2;
+
+   output dataOut1;
+   output dataOut2;
+   output stall;
+   output unstall;
+
+   
+   

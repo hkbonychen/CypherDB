@@ -1,0 +1,25 @@
+//------------------------------
+// Module name: or1200_counter
+// Function: a simple incremental counter
+// Creator:  Bony Chen
+// Version:  1.0
+// Date:     12 Jan 2015
+//------------------------------
+
+module or1200_counter(
+		      in,
+		      out);
+
+   input in;
+   output [7:0] out;
+
+   reg [7:0] 	out;
+   
+   initial out = 0;
+	 
+   always @(posedge in)
+       out <= out + 1;
+   
+endmodule
+	 
+		  

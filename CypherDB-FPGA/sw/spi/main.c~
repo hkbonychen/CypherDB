@@ -1,0 +1,70 @@
+/*
+  SPI controller simple test
+
+  Do some reads from the SPI slaves. Select a different slave each loop
+  and does a read and reports the value.
+
+  Nothing much actually gets tested here.
+
+  Ensure the slave selects for the spi are enabled in orpsoc-defines.v
+
+*/
+
+
+//#include "cpu-utils.h"
+#include "simple-spi.h"
+#include "uart.h"
+#include "orsocdef.h"
+
+void sd_delay(int master, int cycles)
+{
+  int i;
+
+  for (i=0;i<cycles;i++)
+	spi_core_write_data(master, 0xff);
+}
+
+int sd_send_command(unsigned char cmd, unsigned char *argument, unsigned char *response)
+{
+  
+}
+
+int main()
+{
+  int spi_master = FIRST_SPI_CORE;
+  int spi_slave = 2;
+  int i;
+  char dat;
+
+  // init uart
+  uart_init();
+
+  spi_core_clock_setup(spi_master, 0, 0, 2, 1);
+  spi_core_enable(spi_master);
+
+  
+  // Play with the slaves
+  
+  	  // Select slave on SPI bus
+	  spi_core_slave_select(spi_master, 1);
+	  // Do a SPI bus transaction - we're only interested in the read data
+	  // coming back
+
+	// send out at least 74 clock cycles
+	  sd_delay(spi_master, 100);
+
+	  while (!spi_core_write_avail(spi_master));      
+	  spi_core_write_data(spi_master, (i&0xff));
+	  while (!spi_core_data_avail(spi_master));
+	  //report(spi_core_read_data(spi_master));
+	  dat = spi_core_read_data(spi_master);
+	  uart_putc(dat);
+	  uart_print_str("\n");
+	  // Deselect slaves
+	  spi_core_slave_select(spi_master, 0);
+	
+    
+  
+  //exit(0x8000000d);
+  
+}

@@ -1,0 +1,61 @@
+//------------------------------
+// Module name: or1200_encryption
+// Function: encrypt/decrpyt the data flowing from/to the load-store 
+// unit to/from the cache memory
+// Creator:  Bony Chen
+// Version:  1.0
+// Date:     12 Jan 2015
+//------------------------------
+
+`include "or1200_defines.v"
+
+module or1200_encryption_fsm(
+			 clk,
+			 rst,
+			 dataIn1,
+			 dataOut1,
+			 dataIn2,
+			 dataOut2,
+			 wb_control,
+			 stall,
+			 unstall);
+
+   input clk;
+   input rst;
+   input [31:0] dataIn1;
+   input [31:0] dataIn2;
+
+   output [31:0] dataOut1;
+   output [31:0] dataOut2;
+   output wb_control;
+   
+   output stall;
+   output unstall;
+
+   //reg [31:0] dataOut1;
+   //reg [31:0] dataOut2;
+
+   reg 	  wb_control;
+   reg 	  stall;
+   reg 	  unstall;
+   
+   reg [31:0] encryption_pad;
+
+   assign dataOut1 = dataIn1 ^ encryption_pad;
+   assign dataOut2 = dataIn2 ^ encryption_pad;
+
+   always @(posedge clk or `OR1200_RST_EVENT rst)
+     if (rst == `OR1200_RST_VALUE) begin
+	encryption_pad <= 32'h11111111;
+	stall <= 0;
+	unstall <= 0;
+	wb_control <= 0;	
+     end
+     else begin
+	//dataOut1 <= dataIn1 ^ encryption_pad;
+	//dataOut2 <= dataIn2 ^ encryption_pad;
+	wb_control <= 1;
+     end
+   	         
+endmodule
+   

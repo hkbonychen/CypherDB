@@ -1,0 +1,9 @@
+//------------------------------
+// Module name: or1200_enc_fsm_top
+// Function: the top module that wraps the fsm and encryption
+// engines for load and store path
+// unit to/from the cache memory
+// Creator:  Bony Chen
+// Version:  1.0
+// Date:     18 Jan 2015
+// ------------------------------

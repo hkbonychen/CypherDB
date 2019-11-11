@@ -1,0 +1,45 @@
+//------------------------------
+// Module name: or1200_lsu_encEngine
+// Function: the encryption module located in lsu to encrypt the data
+// in byte-wise or word-wise from the register
+// unit to/from the cache memory
+// Creator:  Bony Chen
+// Version:  1.0
+// Date:    23 Jan 2015
+//------------------------------
+
+`include "or1200_defines.v"
+
+module or1200_lsu_encEngine(
+			    shift_op, encPad,
+			    plainIn, cipherOut
+			    );
+   
+   input clk;
+   input rst;
+
+   input [`shift_op_size-1:0] shift_op;
+   input [31:0] encPad;
+   input [31:0] plainIn;
+   output [31:0] cipherOut;
+
+   reg [31:0] 	 cipherOut;
+
+   always @(plainIn or encPad or shift_op) begin
+      case (shift_op)
+
+	`OR1200_SHIFT_BYTE_LOAD, `OR1200_SHIFT_BYTE_STORE:
+	  cipherOut = {plainIn[31:8], plainIn[7:0] ^ encPad[31:24]};
+
+	`OR1200_SHIFT_HALF_WORD_LOAD, `OR1200_SHIFT_HALF_WORD_STORE:
+	  cipherOut = {plainIn[31:16], plainIn[15:0] ^ encPad[31:16]};
+
+	`OR1200_SHIFT_WORD_LOAD, `OR1200_SHIFT_WORD_STORE:
+	  cipherOut = plainIn ^ encPad;
+
+	default: cipherOut = plainIn;
+	
+      endcase // case (shift_op)
+   end
+
+endmodule

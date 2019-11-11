@@ -1,0 +1,277 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <openssl/aes.h>
+
+#include "lineitem.h"
+#include "dbload.h"
+#include "print.h"
+#include "crypto.h"
+
+void itemOTP_malloc(lineitemOTP *itemOTPPt, lineitem *sizePt)
+{
+	itemOTPPt->OrderKey = (char *)malloc(sizeof(int));
+	itemOTPPt->PartKey = (char *)malloc(sizeof(int));
+	itemOTPPt->SuppKey = (char *)malloc(sizeof(int));
+	itemOTPPt->LineNum = (char *)malloc(sizeof(int));
+	itemOTPPt->Quantity = (char *)malloc(sizeof(int));
+	itemOTPPt->ExtendedPrice = (char *)malloc(sizeof(double));
+	itemOTPPt->Discount = (char *)malloc(sizeof(double));
+	itemOTPPt->Tax = (char *)malloc(sizeof(double));
+	itemOTPPt->ReturnFlag = (char *)malloc(strlen(sizePt->ReturnFlag)*sizeof(char));
+	itemOTPPt->LineStatus = (char *)malloc(strlen(sizePt->LineStatus)*sizeof(char));
+	itemOTPPt->ShipDate = (char *)malloc(strlen(sizePt->ShipDate)*sizeof(char));
+	itemOTPPt->CommitDate = (char *)malloc(strlen(sizePt->CommitDate)*sizeof(char));
+	itemOTPPt->ReceiptDate = (char *)malloc(strlen(sizePt->ReceiptDate)*sizeof(char));
+	itemOTPPt->ShipInstruct = (char *)malloc(strlen(sizePt->ShipInstruct)*sizeof(char));
+	itemOTPPt->ShipMode = (char *)malloc(strlen(sizePt->ShipMode)*sizeof(char));
+	itemOTPPt->Comment = (char *)malloc(strlen(sizePt->Comment)*sizeof(char));
+	/* OPE need not memory allocation */
+}
+
+void itemOTP_free(lineitemOTP *itemOTPPt)
+{
+	free(itemOTPPt->OrderKey);
+	free(itemOTPPt->PartKey);
+	free(itemOTPPt->SuppKey);
+	free(itemOTPPt->LineNum);
+	free(itemOTPPt->Quantity);
+	free(itemOTPPt->ExtendedPrice);
+	free(itemOTPPt->Discount);
+	free(itemOTPPt->Tax);
+	free(itemOTPPt->ReturnFlag);
+	free(itemOTPPt->LineStatus);
+	free(itemOTPPt->ShipDate);
+	free(itemOTPPt->CommitDate);
+	free(itemOTPPt->ReceiptDate);
+	free(itemOTPPt->ShipInstruct);
+	free(itemOTPPt->ShipMode);
+	free(itemOTPPt->Comment);
+	/* OPE need not to be freed */
+}
+
+void toItemOTP(lineitem* itemPt, lineitemOTP* itemOTPPt)
+{
+	int j;
+	unsigned char *temp;
+
+
+	temp = BytesFromInt(itemPt->OrderKey, 4);
+	memcpy(itemOTPPt->OrderKey, temp, 4);
+	free(temp);
+
+	temp = BytesFromInt(itemPt->PartKey, 4);
+	memcpy(itemOTPPt->PartKey, temp, 4);
+	free(temp);
+
+	temp = BytesFromInt(itemPt->SuppKey, 4);
+	memcpy(itemOTPPt->SuppKey, temp, 4);
+	free(temp);	
+
+	temp = BytesFromInt(itemPt->LineNum, 4);
+	memcpy(itemOTPPt->LineNum, temp, 4);	
+	free(temp);
+
+	temp = BytesFromInt(itemPt->Quantity, 4);
+	memcpy(itemOTPPt->Quantity, temp, 4);
+	free(temp);
+	
+	for (j=0; j<8; j++) 
+		itemOTPPt->ExtendedPrice[j] = *((char *)(&itemPt->ExtendedPrice)+7-j);
+
+	for (j=0; j<8; j++) 
+		itemOTPPt->Discount[j] = *((char *)(&itemPt->Discount)+7-j);
+
+	for (j=0; j<8; j++) 
+		itemOTPPt->Tax[j] = *((char *)(&itemPt->Tax)+7-j);
+
+	memcpy(itemOTPPt->ReturnFlag, itemPt->ReturnFlag, strlen(itemPt->ReturnFlag));
+	memcpy(itemOTPPt->LineStatus, itemPt->LineStatus, strlen(itemPt->LineStatus));
+	memcpy(itemOTPPt->ShipDate, itemPt->ShipDate, strlen(itemPt->ShipDate));
+	memcpy(itemOTPPt->CommitDate, itemPt->CommitDate, strlen(itemPt->CommitDate));
+	memcpy(itemOTPPt->ReceiptDate, itemPt->ReceiptDate, strlen(itemPt->ReceiptDate));
+	memcpy(itemOTPPt->ShipMode, itemPt->ShipMode, strlen(itemPt->ShipMode));
+	memcpy(itemOTPPt->ShipInstruct, itemPt->ShipInstruct, strlen(itemPt->ShipInstruct));
+	memcpy(itemOTPPt->Comment, itemPt->Comment, strlen(itemPt->Comment));
+	/* OPE transfer */
+	itemOTPPt->OrderKeyOPE = itemPt->OrderKeyOPE;
+	itemOTPPt->PartKeyOPE = itemPt->PartKeyOPE;
+	itemOTPPt->SuppKeyOPE = itemPt->SuppKeyOPE;
+}
+
+/* read file function */
+
+void
+readItem(lineitem* itemPt, FILE* ifp) 
+{
+	readInt(&(itemPt->OrderKey), ifp);
+	readInt(&(itemPt->PartKey), ifp);
+	readInt(&(itemPt->SuppKey), ifp);
+	readInt(&(itemPt->LineNum), ifp);
+	readInt(&(itemPt->Quantity), ifp);
+	readDouble(&(itemPt->ExtendedPrice), ifp);
+	readDouble(&(itemPt->Discount), ifp);
+	readDouble(&(itemPt->Tax), ifp);
+	readString(&(itemPt->ReturnFlag), ifp);
+	readString(&(itemPt->LineStatus), ifp);
+	readString(&(itemPt->ShipDate), ifp);
+	readString(&(itemPt->CommitDate), ifp);
+	readString(&(itemPt->ReceiptDate), ifp);
+	readString(&(itemPt->ShipInstruct), ifp);
+	readString(&(itemPt->ShipMode), ifp);
+	readString(&(itemPt->Comment), ifp);
+	/* read OPE value */
+	readllong(&(itemPt->OrderKeyOPE), ifp);
+	readllong(&(itemPt->PartKeyOPE), ifp);
+	readllong(&(itemPt->SuppKeyOPE), ifp);
+}
+
+void
+readItemOTP(lineitemOTP *itemOTPPt, lineitem* sizePt, FILE* ifp) 
+{
+	int i;
+
+	i = fread(itemOTPPt->OrderKey, sizeof(unsigned char), sizeof(int), ifp);
+	i = fread(itemOTPPt->PartKey, sizeof(unsigned char), sizeof(int), ifp);
+	i = fread(itemOTPPt->SuppKey, sizeof(unsigned char), sizeof(int), ifp);
+	i = fread(itemOTPPt->LineNum, sizeof(unsigned char), sizeof(int), ifp);
+	i = fread(itemOTPPt->Quantity, sizeof(unsigned char), sizeof(int), ifp);
+	i = fread(itemOTPPt->ExtendedPrice, sizeof(unsigned char), sizeof(double), ifp);
+	i = fread(itemOTPPt->Discount, sizeof(unsigned char), sizeof(double), ifp);
+	i = fread(itemOTPPt->Tax, sizeof(unsigned char), sizeof(double), ifp);
+	i = fread(itemOTPPt->ReturnFlag, sizeof(unsigned char), strlen(sizePt->ReturnFlag), ifp);
+	i = fread(itemOTPPt->LineStatus, sizeof(unsigned char), strlen(sizePt->LineStatus), ifp);
+	i = fread(itemOTPPt->ShipDate, sizeof(unsigned char), strlen(sizePt->ShipDate), ifp);
+	i = fread(itemOTPPt->CommitDate, sizeof(unsigned char), strlen(sizePt->CommitDate), ifp);
+	i = fread(itemOTPPt->ReceiptDate, sizeof(unsigned char), strlen(sizePt->ReceiptDate), ifp);
+	i = fread(itemOTPPt->ShipInstruct, sizeof(unsigned char), strlen(sizePt->ShipInstruct), ifp);
+	i = fread(itemOTPPt->ShipMode, sizeof(unsigned char), strlen(sizePt->ShipMode), ifp);
+	i = fread(itemOTPPt->Comment, sizeof(unsigned char), strlen(sizePt->Comment), ifp);
+	/* read OPE value missing */
+}
+
+/* encryption/decryption function */
+
+void encryptItem(lineitem *itemPt, lineitemOTP *itemOTPPt, const AES_KEY *aes, unsigned char cntr[AES_BLOCK_SIZE])
+{
+	ctrEncryptINT(itemPt->OrderKey, 0, itemOTPPt->OrderKey, sizeof(int), cntr, aes);
+	ctrEncryptINT(itemPt->PartKey, 1, itemOTPPt->PartKey, sizeof(int), cntr, aes);
+	ctrEncryptINT(itemPt->SuppKey, 2, itemOTPPt->SuppKey, sizeof(int), cntr, aes);
+	ctrEncryptINT(itemPt->LineNum, 3, itemOTPPt->LineNum, sizeof(int), cntr, aes);
+	ctrEncryptINT(itemPt->Quantity, 4, itemOTPPt->Quantity, sizeof(int), cntr, aes);
+	ctrEncryptDouble(itemPt->ExtendedPrice, 5, itemOTPPt->ExtendedPrice, sizeof(double), cntr, aes);
+	ctrEncryptDouble(itemPt->Discount, 6, itemOTPPt->Discount, sizeof(double), cntr, aes);
+	ctrEncryptDouble(itemPt->Tax, 7, itemOTPPt->Tax, sizeof(double), cntr, aes);
+	ctrEncryptString(itemPt->ReturnFlag, 8, itemOTPPt->ReturnFlag, strlen(itemPt->ReturnFlag), cntr, aes);
+	ctrEncryptString(itemPt->LineStatus, 9, itemOTPPt->LineStatus, strlen(itemPt->LineStatus), cntr, aes);
+	ctrEncryptString(itemPt->ShipDate, 10, itemOTPPt->ShipDate, strlen(itemPt->ShipDate), cntr, aes);
+	ctrEncryptString(itemPt->CommitDate, 11, itemOTPPt->CommitDate, strlen(itemPt->CommitDate), cntr, aes);
+	ctrEncryptString(itemPt->ReceiptDate, 12, itemOTPPt->ReceiptDate, strlen(itemPt->ReceiptDate), cntr, aes);
+	ctrEncryptString(itemPt->ShipInstruct, 13, itemOTPPt->ShipInstruct, strlen(itemPt->ShipInstruct), cntr, aes);
+	ctrEncryptString(itemPt->ShipMode, 14, itemOTPPt->ShipMode, strlen(itemPt->ShipMode), cntr, aes);
+	ctrEncryptString(itemPt->Comment, 15, itemOTPPt->Comment, strlen(itemPt->Comment), cntr, aes);
+	/* OPE value direct copy, no encryption*/
+	itemOTPPt->OrderKeyOPE = itemPt->OrderKeyOPE;
+	itemOTPPt->PartKeyOPE = itemPt->PartKeyOPE;
+	itemOTPPt->SuppKeyOPE = itemPt->SuppKeyOPE;
+}
+
+void decryptItem(lineitemOTP *itemOTPPt, lineitemOTP *itemDecPt, lineitem *sizePt, const AES_KEY *aes, unsigned char cntr[AES_BLOCK_SIZE])
+{
+	ctrDecryptINT(itemOTPPt->OrderKey, 0, itemDecPt->OrderKey, sizeof(int), cntr, aes);
+	ctrDecryptINT(itemOTPPt->PartKey, 1, itemDecPt->PartKey, sizeof(int), cntr, aes);
+	ctrDecryptINT(itemOTPPt->SuppKey, 2, itemDecPt->SuppKey, sizeof(int), cntr, aes);
+	ctrDecryptINT(itemOTPPt->LineNum, 3, itemDecPt->LineNum, sizeof(int), cntr, aes);
+	ctrDecryptINT(itemOTPPt->Quantity, 4, itemDecPt->Quantity, sizeof(int), cntr, aes);
+	ctrDecryptDouble(itemOTPPt->ExtendedPrice, 5, itemDecPt->ExtendedPrice, sizeof(double), cntr, aes);
+	ctrDecryptDouble(itemOTPPt->Discount, 6, itemDecPt->Discount, sizeof(double), cntr, aes);
+	ctrDecryptDouble(itemOTPPt->Tax, 7, itemDecPt->Tax, sizeof(double), cntr, aes);
+	ctrDecryptString(itemOTPPt->ReturnFlag, 8, itemDecPt->ReturnFlag, strlen(sizePt->ReturnFlag), cntr, aes);
+	ctrDecryptString(itemOTPPt->LineStatus, 9, itemDecPt->LineStatus, strlen(sizePt->LineStatus), cntr, aes);
+	ctrDecryptString(itemOTPPt->ShipDate, 10, itemDecPt->ShipDate, strlen(sizePt->ShipDate), cntr, aes);
+	ctrDecryptString(itemOTPPt->CommitDate, 11, itemDecPt->CommitDate, strlen(sizePt->CommitDate), cntr, aes);
+	ctrDecryptString(itemOTPPt->ReceiptDate, 12, itemDecPt->ReceiptDate, strlen(sizePt->ReceiptDate), cntr, aes);
+	ctrDecryptString(itemOTPPt->ShipInstruct, 13, itemDecPt->ShipInstruct, strlen(sizePt->ShipInstruct), cntr, aes);
+	ctrDecryptString(itemOTPPt->ShipMode, 14, itemDecPt->ShipMode, strlen(sizePt->ShipMode), cntr, aes);
+	ctrDecryptString(itemOTPPt->Comment, 15, itemDecPt->Comment, strlen(sizePt->Comment), cntr, aes);
+	/* OPE value direct copy, no decryption */
+	itemDecPt->OrderKeyOPE = itemOTPPt->OrderKeyOPE;
+	itemDecPt->PartKeyOPE = itemOTPPt->PartKeyOPE;
+	itemDecPt->SuppKeyOPE = itemOTPPt->SuppKeyOPE;
+}
+
+/* print function */
+
+void printItem(lineitem * itemPt, FILE * ifp)
+{
+	printInt(ifp, itemPt->OrderKey, "|");
+	printInt(ifp, itemPt->PartKey, "|");
+	printInt(ifp, itemPt->SuppKey, "|");
+	printInt(ifp, itemPt->LineNum, "|");
+	printInt(ifp, itemPt->Quantity, "|");
+	printDouble(ifp, itemPt->ExtendedPrice, "|");
+	printDouble(ifp, itemPt->Discount, "|");
+	printDouble(ifp, itemPt->Tax, "|");
+	printString(ifp, itemPt->ReturnFlag, "|");
+	printString(ifp, itemPt->LineStatus, "|");
+	printString(ifp, itemPt->ShipDate, "|");
+	printString(ifp, itemPt->CommitDate, "|");
+	printString(ifp, itemPt->ReceiptDate, "|");
+	printString(ifp, itemPt->ShipInstruct, "|");
+	printString(ifp, itemPt->ShipMode, "|");
+	printString(ifp, itemPt->Comment, "|");
+	/* print OPE value */
+	printllong(ifp, itemPt->OrderKeyOPE, "|");
+	printllong(ifp, itemPt->PartKeyOPE, "|");
+	printllong(ifp, itemPt->SuppKeyOPE, "|");
+	fprintf(ifp, "\n");
+}
+
+void printItemOTP(lineitemOTP *itemOTPPt, lineitem *sizePt, FILE *ifp)
+{
+	printBinary(ifp, itemOTPPt->OrderKey, sizeof(int));
+	printBinary(ifp, itemOTPPt->PartKey, sizeof(int));
+	printBinary(ifp, itemOTPPt->SuppKey, sizeof(int));
+	printBinary(ifp, itemOTPPt->LineNum, sizeof(int));
+	printBinary(ifp, itemOTPPt->Quantity, sizeof(int));
+	printBinary(ifp, itemOTPPt->ExtendedPrice, sizeof(double));
+	printBinary(ifp, itemOTPPt->Discount, sizeof(double));
+	printBinary(ifp, itemOTPPt->Tax, sizeof(double));
+	printBinary(ifp, itemOTPPt->ReturnFlag, strlen(sizePt->ReturnFlag));
+	printBinary(ifp, itemOTPPt->LineStatus, strlen(sizePt->LineStatus));
+	printBinary(ifp, itemOTPPt->ShipDate, strlen(sizePt->ShipDate));
+	printBinary(ifp, itemOTPPt->CommitDate, strlen(sizePt->CommitDate));
+	printBinary(ifp, itemOTPPt->ReceiptDate, strlen(sizePt->ReceiptDate));
+	printBinary(ifp, itemOTPPt->ShipInstruct, strlen(sizePt->ShipInstruct));
+	printBinary(ifp, itemOTPPt->ShipMode, strlen(sizePt->ShipMode));
+	printBinary(ifp, itemOTPPt->Comment, strlen(sizePt->Comment));
+	/* print OPE value */
+	//printBinary(ifp, itemOTPPt->OrderKeyOPE, sizeof(long long int));
+	//printBinary(ifp, itemOTPPt->LineNumOPE, sizeof(long long int));
+}
+
+void printItemTemplate(lineitem * itemPt, FILE * ifp)
+{
+	printInt(ifp, -96746058, "|");
+	printInt(ifp, -96746058, "|");
+	printInt(ifp, -96746058, "|");
+	printInt(ifp, -96746058, "|");
+	printInt(ifp, -96746058, "|");
+	printDouble(ifp, 24386.67, "|");
+	printDouble(ifp, 24386.67, "|");
+	printDouble(ifp, 24386.67, "|");
+	printString(ifp, itemPt->ReturnFlag, "|");
+	printString(ifp, itemPt->LineStatus, "|");
+	printString(ifp, itemPt->ShipDate, "|");
+	printString(ifp, itemPt->CommitDate, "|");
+	printString(ifp, itemPt->ReceiptDate, "|");
+	printString(ifp, itemPt->ShipInstruct, "|");
+	printString(ifp, itemPt->ShipMode, "|");
+	printString(ifp, itemPt->Comment, "|");
+	/* print OPE value */
+	printllong(ifp, itemPt->OrderKeyOPE, "|");
+	printllong(ifp, itemPt->PartKeyOPE, "|");
+	printllong(ifp, itemPt->SuppKeyOPE, "");
+	fprintf(ifp, "\n");
+}
+

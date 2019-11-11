@@ -1,0 +1,1 @@
+`define sim_dir /home/bony/Workspace/PhD/CipherCloud_FPGA/altera/sdcard_mass_storage_controller/trunk/sim/rtl_sim

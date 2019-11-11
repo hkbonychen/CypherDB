@@ -1,0 +1,45 @@
+//------------------------------
+// Module name: or1200_enc_fsm_top
+// Function: the top module that wraps the fsm and encryption
+// engines for load and store path
+// unit to/from the cache memory
+// Creator:  Bony Chen
+// Version:  1.0
+// Date:     18 Jan 2015
+//------------------------------
+
+`include "or1200_defines.v"
+
+module or1200_enc_fsm_top(
+			  clk, rst,
+			  // input of encryption seed, seedRead?
+			  seedIn, seedAddr, seedImm, seedRead,
+			  // output of the encrypted data
+			  dataIn_load, dataOut_load, 
+			  dataIn_store, dataOut_store,
+			  // control signal
+			  unstall_load, unstall_store
+			  );
+   
+   input clk;
+   input rst;
+
+   // Seed Input and control
+   input [4:0]	 seedIn;
+   input [4:0]	 seedAddr;
+   input [10:0]	 seedImm;
+   input 	 seedRead;
+
+   // Data I/O
+   input [31:0] dataIn_load;
+   input [31:0] dataIn_store;
+   output [31:0] dataOut_load;
+   output [31:0] dataOut_store;
+
+   // encryption data and control I/O
+   output 	 enc_start;
+   input 	 enc_done;
+   output [127:0] enc_key;
+   output [127:0] enc_seed;
+   input [127:0] enc_pad; 
+	 

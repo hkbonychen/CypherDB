@@ -1,0 +1,5 @@
+Modifiy each *_sqlite.c file to add an array indicating the encrypted fields.
+Also, getPageData function can now change the header of the payload
+type = 10 --> encrypted integer of 4 bytes size
+type = 11 --> encrypted real of 8 bytes size
+Currently, only OPE items are unencrypted. Other fields are all encrypted.

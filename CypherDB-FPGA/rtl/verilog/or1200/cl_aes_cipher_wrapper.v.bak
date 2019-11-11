@@ -1,0 +1,116 @@
+//------------------------------
+// Module name: aes_cipher_wrapper.v
+// Function: a wrapper interface that allows AES engine and 
+// control FSM operating at different frequency
+// Creator:  Bony Chen
+// Version:  1.0
+// Date:     23 Aug 2015
+//------------------------------
+
+`include "or1200_defines.v"
+
+// the ratio of aes_clk over clk
+// used to extend the enc done signal 
+// so that it can be read by a slower clk
+
+`define IDLE    1'b0
+`define LOOP  1'b1
+
+module cl_aes_cipher_wrapper(
+			  aes_clk,
+			  clk, rst,
+			  ld, done,
+			  key, text_in, text_buf
+			  );
+
+   parameter clk_ratio = 4; // aes_clk/clk - 1
+   parameter cntr_width = 2;  // log2(ENC_CLK_RATIO)
+   
+   input aes_clk;
+   input clk;
+   input rst;
+
+   input ld;
+   output done;
+
+   input [127:0] key;
+   input [127:0] text_in;
+   output [127:0] text_buf;
+
+   wire [127:0] 	  text_out;
+   wire 		  done_extend;
+   reg 			  cache_done;
+   wire 		  enc_done;
+   
+   
+   reg [127:0] 	  text_buf;
+   reg 		  state;
+   reg [cntr_width:0] cnt;
+
+   assign done = cache_done;   
+
+   always @(negedge aes_clk)
+     if (enc_done)
+       text_buf <= text_out;
+
+   // FSM to extend the enc done signal
+   always @(negedge aes_clk or `OR1200_RST_EVENT rst)
+      if (rst == `OR1200_RST_VALUE) begin
+	 cnt <= clk_ratio;
+	 cache_done <= 0;
+	 state <= `IDLE;
+	 
+      end
+      else begin
+	 case (state)
+	   
+	   `IDLE: begin
+	      cnt <= clk_ratio;
+	      cache_done <=0;
+	      if (enc_done) begin
+		 cache_done <= 1;
+		 cnt <= cnt-1;
+		 state <= `LOOP;		 
+	      end
+	      else
+		state <= `IDLE;
+	   end // case: IDLE	   		 	    
+
+	   `LOOP: begin
+	      if (!ld) begin
+		 cache_done <= 1;
+		 cnt <= cnt-1;		 
+		 state <= `LOOP;
+	      end
+	      else begin
+		 cache_done <= 0;
+		 cnt <= clk_ratio;		 
+		 state <= `IDLE;
+	      end
+	   end // case: LOOP	        
+
+	   endcase
+      end
+      
+
+      aes_cipher_top 
+	aes_cipher_top (
+			.clk(aes_clk), 
+			.rst(!rst),
+			.ld(ld_pulse),
+			.done(enc_done),
+			.key(key),
+			.text_in(text_in),
+			.text_out(text_out)
+			);
+
+   or1200_pulse_gen
+     ld_pulse_gen (
+		   .clk(aes_clk),
+		   .rst(rst),
+		   .in(ld),
+		   .pulse(ld_pulse)
+		   );
+   
+   
+endmodule

@@ -1,0 +1,46 @@
+//------------------------------
+// Module name: or1200_first_enc_pad_detector
+// Function: to detect the first encryption pad generated. It is useful in 
+// differentiating the encryption pad used in ctr and ofb mode encryption. 
+// The output of this module: asserted when the first encryption done signal
+// is detected. 
+// Creator:  Bony Chen
+// Version:  1.0
+// Date:     8  Mar 2015
+//------------------------------
+
+`include "or1200_defines.v"
+
+module or1200_first_enc_pad_detector(
+				     clk, rst,
+				     seed_read, enc_done,
+				     new_data_seed
+				     );
+
+   input clk;
+   input rst;
+
+   input seed_read;
+   input enc_done;
+
+   output new_data_seed;
+
+   reg 	  new_data_seed;
+   reg 	  counter;	  
+   
+   always @(posedge clk or `OR1200_RST_EVENT rst)
+     if (rst == `OR1200_RST_VALUE) begin
+			new_data_seed <= 0;
+     end else begin
+			if (seed_read)
+				counter <= 1;
+			else if (enc_done)
+				counter <= 0;
+				
+			if (counter & enc_done)
+				new_data_seed <= 1;
+			else new_data_seed <= 0;
+	  
+     end // else: !if(rst == `OR1200_RST_VALUE)
+
+endmodule

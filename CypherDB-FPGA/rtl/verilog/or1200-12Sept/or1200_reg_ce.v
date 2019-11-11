@@ -1,0 +1,34 @@
+//------------------------------
+// Module name: or1200_reg_ce
+// Function: a simple register file with enable bit
+// Creator:  Bony Chen
+// Version:  1.0
+// Date:     8 March 2015
+//------------------------------
+
+`include "or1200_defines.v"
+
+module or1200_reg_ce(
+		     clk, rst,
+		     ce, in, out
+		     );
+
+   input clk;
+   input rst;
+
+   input ce;
+   input [127:0] in;
+   
+   output [127:0] out;
+
+   reg [127:0] 	  out;
+   
+   always @(posedge clk or `OR1200_RST_EVENT rst)
+     if (rst == `OR1200_RST_VALUE)
+       out <= 128'h0;
+     else 
+       if (ce)
+	 out <= in;
+   
+  endmodule
+       

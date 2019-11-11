@@ -1,0 +1,345 @@
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to gpio0_io[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to gpio0_io[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to gpio0_io[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to gpio0_io[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to gpio0_io[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to gpio0_io[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to gpio0_io[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to gpio0_io[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to rst_n_pad_i
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_a_pad_o[12]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_a_pad_o[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_a_pad_o[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_a_pad_o[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_a_pad_o[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_a_pad_o[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_a_pad_o[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_a_pad_o[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_a_pad_o[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_a_pad_o[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_a_pad_o[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_a_pad_o[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_a_pad_o[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_ba_pad_o[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_ba_pad_o[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_cas_pad_o
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_cke_pad_o
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_clk_pad_o
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_cs_n_pad_o
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_dq_pad_io[15]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_dq_pad_io[14]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_dq_pad_io[13]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_dq_pad_io[12]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_dq_pad_io[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_dq_pad_io[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_dq_pad_io[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_dq_pad_io[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_dq_pad_io[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_dq_pad_io[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_dq_pad_io[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_dq_pad_io[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_dq_pad_io[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_dq_pad_io[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_dq_pad_io[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_dq_pad_io[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_dqm_pad_o[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_dqm_pad_o[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_ras_pad_o
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sdram_we_pad_o
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to sys_clk_pad_i
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to uart0_srx_pad_i
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to uart0_stx_pad_o
+set_location_assignment PIN_B27 -to uart0_srx_pad_i
+set_location_assignment PIN_H24 -to uart0_stx_pad_o
+set_location_assignment PIN_K22 -to gpio0_io[7]
+set_location_assignment PIN_F19 -to gpio0_io[6]
+set_location_assignment PIN_K21 -to gpio0_io[5]
+set_location_assignment PIN_D19 -to gpio0_io[4]
+set_location_assignment PIN_F18 -to gpio0_io[3]
+set_location_assignment PIN_D18 -to gpio0_io[2]
+set_location_assignment PIN_F17 -to gpio0_io[1]
+set_location_assignment PIN_G16 -to gpio0_io[0]
+set_location_assignment PIN_AJ16 -to sys_clk_pad_i
+set_location_assignment PIN_AA26 -to rst_n_pad_i
+set_location_assignment PIN_AE10 -to sdram_a_pad_o[12]
+set_location_assignment PIN_AE11 -to sdram_a_pad_o[11]
+set_location_assignment PIN_AH6 -to sdram_a_pad_o[10]
+set_location_assignment PIN_AE12 -to sdram_a_pad_o[9]
+set_location_assignment PIN_AE13 -to sdram_a_pad_o[8]
+set_location_assignment PIN_AE15 -to sdram_a_pad_o[7]
+set_location_assignment PIN_AE14 -to sdram_a_pad_o[6]
+set_location_assignment PIN_AF16 -to sdram_a_pad_o[5]
+set_location_assignment PIN_AE16 -to sdram_a_pad_o[4]
+set_location_assignment PIN_AH8 -to sdram_a_pad_o[3]
+set_location_assignment PIN_AG8 -to sdram_a_pad_o[2]
+set_location_assignment PIN_AJ7 -to sdram_a_pad_o[1]
+set_location_assignment PIN_AG7 -to sdram_a_pad_o[0]
+set_location_assignment PIN_AG6 -to sdram_ba_pad_o[1]
+set_location_assignment PIN_AH5 -to sdram_ba_pad_o[0]
+set_location_assignment PIN_AJ4 -to sdram_cas_pad_o
+set_location_assignment PIN_AD6 -to sdram_cke_pad_o
+set_location_assignment PIN_AE6 -to sdram_clk_pad_o
+set_location_assignment PIN_AG5 -to sdram_cs_n_pad_o
+set_location_assignment PIN_AA15 -to sdram_dq_pad_io[15]
+set_location_assignment PIN_AA12 -to sdram_dq_pad_io[14]
+set_location_assignment PIN_AB11 -to sdram_dq_pad_io[13]
+set_location_assignment PIN_AA13 -to sdram_dq_pad_io[12]
+set_location_assignment PIN_AG9 -to sdram_dq_pad_io[11]
+set_location_assignment PIN_AF12 -to sdram_dq_pad_io[10]
+set_location_assignment PIN_AF13 -to sdram_dq_pad_io[9]
+set_location_assignment PIN_AB13 -to sdram_dq_pad_io[8]
+set_location_assignment PIN_AF9 -to sdram_dq_pad_io[7]
+set_location_assignment PIN_AF6 -to sdram_dq_pad_io[6]
+set_location_assignment PIN_AF7 -to sdram_dq_pad_io[5]
+set_location_assignment PIN_AE7 -to sdram_dq_pad_io[4]
+set_location_assignment PIN_AE8 -to sdram_dq_pad_io[3]
+set_location_assignment PIN_AE9 -to sdram_dq_pad_io[2]
+set_location_assignment PIN_AD9 -to sdram_dq_pad_io[1]
+set_location_assignment PIN_AD10 -to sdram_dq_pad_io[0]
+set_location_assignment PIN_AB14 -to sdram_dqm_pad_o[1]
+set_location_assignment PIN_AF10 -to sdram_dqm_pad_o[0]
+set_location_assignment PIN_AK4 -to sdram_ras_pad_o
+set_location_assignment PIN_AK3 -to sdram_we_pad_o
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name FAMILY "Cyclone IV GX"
+set_global_assignment -name DEVICE EP4CGX150DF31C7
+set_global_assignment -name TOP_LEVEL_ENTITY orpsoc_top
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION "12.0 SP2"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "17:18:04  NOVEMBER 04, 2014"
+set_global_assignment -name LAST_QUARTUS_VERSION "12.0 SP2"
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/wb_switch_b3/wb_switch_b3.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/wb_ram_b3/wb_ram_b3.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/versatile_mem_ctrl/versatile_mem_ctrl.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/writeUSBWireData.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/wishBoneBI.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/USBTxWireArbiter.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/USBSlaveControlBI.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/usbSlaveControl.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/usbslave.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/usbSerialInterfaceEngine.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/usbhostslave.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/USBHostControlBI.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/usbHostControl.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/usbhost.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/updateCRC16.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/updateCRC5.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/TxfifoBI.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/TxFifo.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/speedCtrlMux.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/SOFTransmit.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/SOFController.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/slaveSendPacket.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/slaveRxStatusMonitor.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/slaveGetPacket.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/slaveDirectControl.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/slavecontroller.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/SIETransmitter.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/SIEReceiver.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/sendPacketCheckPreamble.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/sendPacketArbiter.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/sendPacket.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/SCTxPortArbiter.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/rxStatusMonitor.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/RxfifoBI.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/RxFifo.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/readUSBWireData.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/processTxByte.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/processRxByte.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/processRxBit.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/lineControlUpdate.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/hostSlaveMuxBI.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/hostSlaveMux.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/hostcontroller.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/HCTxPortArbiter.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/getPacket.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/fifoRTL.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/fifoMux.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/endpMux.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/dpMem_dc.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/usbhostslave/directControl.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/uart16550/uart_wb.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/uart16550/uart_transmitter.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/uart16550/uart_tfifo.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/uart16550/uart_sync_flops.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/uart16550/uart_rfifo.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/uart16550/uart_regs.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/uart16550/uart_receiver.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/uart16550/uart_debug_if.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/uart16550/uart16550.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/uart16550/raminfr.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/smii/smii_sync.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/smii/smii_if.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/smii/smii.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/simple_spi/simple_spi.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/simple_spi/fifo4.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/sdc_controller/sdc_controller.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/sdc_controller/sd_tx_fifo.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/sdc_controller/sd_rx_fifo_tb.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/sdc_controller/sd_rx_fifo.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/sdc_controller/sd_fifo_tx_filler.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/sdc_controller/sd_fifo_rx_filler.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/sdc_controller/sd_data_serial_host.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/sdc_controller/sd_data_master.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/sdc_controller/sd_crc_16.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/sdc_controller/sd_crc_7.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/sdc_controller/sd_controller_wb.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/sdc_controller/sd_cmd_serial_host.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/sdc_controller/sd_cmd_master.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/sdc_controller/sd_clock_divider.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/sdc_controller/sd_bd.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/rom/rom.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ram_wb/ram_wb_b3.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ram_wb/ram_wb.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/orpsoc_top/orpsoc_top.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_xcv_ram32x8d.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_wbmux.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_wb_biu.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_tt.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_tpram_32x32.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_top.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_sprs.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_spram_2048x32_bw.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_spram_2048x32.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_spram_2048x8.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_spram_1024x32_bw.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_spram_1024x32.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_spram_1024x8.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_spram_512x20.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_spram_256x21.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_spram_128x32.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_spram_64x24.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_spram_64x22.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_spram_64x14.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_spram_32x24.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_spram_32_bw.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_spram.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_sb_fifo.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_sb.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_rfram_generic.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_rf.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_reg2mem.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_qmem_top.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_pm.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_pic.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_operandmuxes.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_mult_mac.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_mem2reg.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_lsu.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_iwb_biu.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_immu_top.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_immu_tlb.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_if.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_ic_top.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_ic_tag.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_ic_ram.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_ic_fsm.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_gmultp2_32x32.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_genpc.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_freeze.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_fpu_pre_norm_mul.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_fpu_pre_norm_div.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_fpu_pre_norm_addsub.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_fpu_post_norm_mul.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_fpu_post_norm_intfloat_conv.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_fpu_post_norm_div.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_fpu_post_norm_addsub.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_fpu_mul.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_fpu_intfloat_conv.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_fpu_fcmp.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_fpu_div.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_fpu_arith.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_fpu_addsub.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_fpu.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_except.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_du.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_dpram_256x32.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_dpram_32x32.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_dpram.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_dmmu_top.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_dmmu_tlb.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_dc_top.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_dc_tag.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_dc_ram.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_dc_fsm.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_ctrl.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_cpu.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_cfgr.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_amultp2_32x32.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/or1200/or1200_alu.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/jtag_tap/jtag_tap.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/intgen/intgen.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/i2c_master_slave/i2c_master_slave.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/i2c_master_slave/i2c_master_byte_ctrl.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/i2c_master_slave/i2c_master_bit_ctrl.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/gpio/gpio.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/flashrom/flashrom.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/xilinx_dist_ram_16x32.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/ethmac.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_wishbone.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_txstatem.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_txethmac.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_txcounters.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_transmitcontrol.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_spram_256x32.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_shiftreg.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_rxstatem.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_rxethmac.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_rxcounters.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_rxaddrcheck.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_registers.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_register.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_receivecontrol.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_random.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_outputcontrol.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_miim.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_macstatus.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_maccontrol.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_fifo.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_crc.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/ethmac/eth_clockgen.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/dbg_if/dbg_wb.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/dbg_if/dbg_register.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/dbg_if/dbg_if.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/dbg_if/dbg_crc32_d1.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/dbg_if/dbg_cpu_registers.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/dbg_if/dbg_cpu.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/clkgen/clkgen.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/cfi_ctrl/cfi_ctrl_engine.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/cfi_ctrl/cfi_ctrl.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/arbiter/arbiter_ibus.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/arbiter/arbiter_dbus.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/arbiter/arbiter_bytebus.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/adv_debugsys/syncreg.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/adv_debugsys/syncflop.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/adv_debugsys/bytefifo.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/adv_debugsys/adv_dbg_if.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/adv_debugsys/adbg_wb_module.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/adv_debugsys/adbg_wb_biu.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/adv_debugsys/adbg_or1k_status_reg.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/adv_debugsys/adbg_or1k_module.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/adv_debugsys/adbg_or1k_biu.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/adv_debugsys/adbg_jsp_module.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/adv_debugsys/adbg_jsp_biu.v
+set_global_assignment -name VERILOG_FILE ../rtl/verilog/adv_debugsys/adbg_crc32.v
+set_global_assignment -name VERILOG_FILE ../backend/rtl/verilog/pll.v
+set_global_assignment -name VHDL_FILE ../rtl/vhdl/adv_debugsys/altera_virtual_jtag.vhd
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name SEARCH_PATH "/home/bony/Workspace/PhD/CipherCloud_FPGA/altera/de2i-150/openRISC/rtl/verilog/versatile_mem_ctrl/rtl/verilog"
+set_global_assignment -name SEARCH_PATH "/home/bony/Workspace/PhD/CipherCloud_FPGA/altera/de2i-150/openRISC/sw/bootrom"
+set_global_assignment -name SEARCH_PATH "/home/bony/Workspace/PhD/CipherCloud_FPGA/altera/de2i-150/openRISC/rtl/verilog/versatile_mem_ctrl"
+set_global_assignment -name SEARCH_PATH "/home/bony/Workspace/PhD/CipherCloud_FPGA/altera/de2i-150/openRISC/rtl/verilog/include"
+set_global_assignment -name SEARCH_PATH "/home/bony/Workspace/PhD/CipherCloud_FPGA/altera/de2i-150/openRISC/run"
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+set_global_assignment -name USE_CONFIGURATION_DEVICE OFF
+set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
+set_global_assignment -name ACTIVE_SERIAL_CLOCK FREQ_40MHZ
+set_global_assignment -name SDC_FILE orpsoc_top.sdc

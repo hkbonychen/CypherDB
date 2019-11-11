@@ -1,0 +1,94 @@
+//------------------------------
+// Module name: cl_cntr_cache_top.v
+// Function: the top module of cache line encryption counter buffer
+// It includes a FSM and RAM
+// Creator:  Bony Chen
+// Version:  1.0
+// Date:     27 Aug 2015
+//------------------------------
+
+`include "or1200_defines.v"
+
+module cl_cntr_cache_top(
+			 clk, rst,
+			 cntr_eval, cntr_store, cntr_done, cntr_invalid,
+			 tag_addr, cntr
+			 );
+
+   // cntr_aw = log2(max(SDRAM_size))-OR1200_DCLS
+   // cntr_dw = counter size (number of bits)
+   parameter cntr_aw = 21;   
+   parameter cntr_dw = 16;   
+
+   input clk;
+   input rst;
+
+   input cntr_eval;
+   input cntr_store;
+   input cntr_invalid;  
+   output reg cntr_done;   
+
+   input [cntr_aw-1:0] tag_addr;   
+   output  [cntr_dw-1:0] cntr;
+
+   wire 		    cntr_miss;   
+   wire 		    cntr_we;
+   reg [cntr_dw-1:0] 	    cache_cntr;
+   reg 			    cache_cntr_store;
+   reg 			    cntr_write;
+   reg 			    cache_cntr_eval;			    
+   
+   // generate read/write done signal for cntr RAM
+   always @(posedge clk or `OR1200_RST_EVENT rst)
+     if (rst == `OR1200_RST_VALUE)
+       cntr_done <=  1'b0;
+     else begin
+	cntr_done <=  cntr_eval | cntr_write;
+	if (cache_cntr_eval & cntr_done)
+	  cache_cntr <= cntr;
+     end
+
+   assign cntr_miss = 1'b0;
+
+   //
+   // FSM to read cl  cntr
+   //
+   always @(posedge clk or `OR1200_RST_EVENT rst)
+     if (rst == `OR1200_RST_VALUE) begin
+	cntr_write <= 1'b0;
+	cache_cntr_eval <= 1'b0;
+     end
+     else begin
+	cntr_write <= cntr_store;
+	cache_cntr_eval <= cntr_eval;
+     end
+   
+
+   //
+   // cache line encryption counter RAM
+   //
+   or1200_spram_oe #
+     (
+      .aw(cntr_aw),
+      .dw(cntr_dw)
+      )
+   cl_cntr_ram (
+		.clk(clk),
+`ifdef OR1200_BIST
+		// RAM BIST
+		.mbist_si_i(),
+		.mbist_so_o(),
+		.mbist_ctrl_i(),
+`endif
+		.ce(cntr_eval | cntr_write),
+		.we(cntr_write),
+		.oe(cache_cntr_eval & cntr_done & !cntr_invalid),
+		.addr(tag_addr),
+		.di(cache_cntr+1'b1),
+		.doq(cntr)
+		);
+
+endmodule
+
+   
+   

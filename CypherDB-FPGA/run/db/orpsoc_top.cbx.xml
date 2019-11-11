@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="orpsoc_top">
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|clkgen:clkgen0|pll:pll0|altpll:altpll_component" CBX_FILE_NAME="pll_altpll.v"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_dc_top:or1200_dc_top|or1200_dc_ram:or1200_seed_ram|or1200_spram_32_bw:dc_ram|altsyncram:mem3_rtl_0" CBX_FILE_NAME="altsyncram_p6e1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_ic_top:or1200_ic_top|or1200_ic_ram:or1200_ic_ram|or1200_spram:ic_ram0|altsyncram:mem_rtl_0" CBX_FILE_NAME="altsyncram_pce1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_immu_top:or1200_immu_top|or1200_immu_tlb:or1200_immu_tlb|or1200_spram:itlb_tr_ram|altsyncram:mem_rtl_0" CBX_FILE_NAME="altsyncram_10e1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|uart16550:uart16550_0|uart_regs:regs|uart_transmitter:transmitter|uart_tfifo:fifo_tx|raminfr:tfifo|altsyncram:ram_rtl_0" CBX_FILE_NAME="altsyncram_odc1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_cpu:or1200_cpu|or1200_alu:or1200_alu|lpm_add_sub:Add0" CBX_FILE_NAME="add_sub_j3j.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_immu_top:or1200_immu_top|or1200_immu_tlb:or1200_immu_tlb|or1200_spram:itlb_mr_ram|altsyncram:mem_rtl_0" CBX_FILE_NAME="altsyncram_30e1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|sdc_controller:sdc_controller_0|sd_fifo_filler:sd_fifo_filler0|generic_fifo_dc_gray:generic_fifo_dc_gray0|generic_dpram:u0|altsyncram:mem_rtl_0" CBX_FILE_NAME="altsyncram_g3d1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|wb_sdram_ctrl:wb_sdram_ctrl0|arbiter:arbiter|wb_port:wbports[0].wb_port|bufram:bufram|dpram_altera:dpram_altera.dpram_altera|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_jti2.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_dmmu_top:or1200_dmmu_top|or1200_dmmu_tlb:or1200_dmmu_tlb|or1200_spram:dtlb_ram|altsyncram:mem_rtl_0" CBX_FILE_NAME="altsyncram_30e1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|sdc_controller:sdc_controller_0|sd_fifo_filler:sd_fifo_filler0|generic_fifo_dc_gray:generic_fifo_dc_gray1|generic_dpram:u0|altsyncram:mem_rtl_0" CBX_FILE_NAME="altsyncram_g3d1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|uart16550:uart16550_0|uart_regs:regs|uart_receiver:receiver|uart_rfifo:fifo_rx|raminfr:rfifo|altsyncram:ram_rtl_0" CBX_FILE_NAME="altsyncram_odc1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|wb_sdram_ctrl:wb_sdram_ctrl0|arbiter:arbiter|wb_port:wbports[1].wb_port|bufram:bufram|dpram_altera:dpram_altera.dpram_altera|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_jti2.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_dc_top:or1200_dc_top|or1200_dc_ram:or1200_dc_ram|or1200_spram_32_bw:dc_ram|altsyncram:mem0_rtl_0" CBX_FILE_NAME="altsyncram_v9e1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_dc_top:or1200_dc_top|or1200_dc_tag:or1200_dc_tag|or1200_spram:dc_tag0|altsyncram:mem_rtl_0" CBX_FILE_NAME="altsyncram_d9e1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|sdc_controller:sdc_controller_0|lpm_mult:Mult0" CBX_FILE_NAME="mult_sgt.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|wb_sdram_ctrl:wb_sdram_ctrl0|arbiter:arbiter|wb_port:wbports[2].wb_port|bufram:bufram|dpram_altera:dpram_altera.dpram_altera|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_jti2.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_cpu:or1200_cpu|or1200_rf:or1200_rf|or1200_dpram:rf_a|altsyncram:mem_rtl_0" CBX_FILE_NAME="altsyncram_nvd1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_dc_top:or1200_dc_top|or1200_dc_ram:or1200_dc_ram|or1200_spram_32_bw:dc_ram|altsyncram:mem1_rtl_0" CBX_FILE_NAME="altsyncram_v9e1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_ic_top:or1200_ic_top|or1200_ic_tag:or1200_ic_tag|or1200_spram:ic_tag0|altsyncram:mem_rtl_0" CBX_FILE_NAME="altsyncram_99e1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|wb_sdram_ctrl:wb_sdram_ctrl0|arbiter:arbiter|wb_port:wbports[3].wb_port|bufram:bufram|dpram_altera:dpram_altera.dpram_altera|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_jti2.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_cpu:or1200_cpu|or1200_rf:or1200_rf|or1200_dpram:rf_b|altsyncram:mem_rtl_0" CBX_FILE_NAME="altsyncram_nvd1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_dc_top:or1200_dc_top|or1200_dc_ram:or1200_dc_ram|or1200_spram_32_bw:dc_ram|altsyncram:mem2_rtl_0" CBX_FILE_NAME="altsyncram_v9e1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_dc_top:or1200_dc_top|or1200_dc_ram:or1200_seed_ram|or1200_spram_32_bw:dc_ram|altsyncram:mem0_rtl_0" CBX_FILE_NAME="altsyncram_p6e1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_dc_top:or1200_dc_top|or1200_dc_tag:or1200_seed_tag|or1200_spram:dc_tag0|altsyncram:mem_rtl_0" CBX_FILE_NAME="altsyncram_p9e1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|wb_sdram_ctrl:wb_sdram_ctrl0|arbiter:arbiter|wb_port:wbports[4].wb_port|bufram:bufram|dpram_altera:dpram_altera.dpram_altera|altsyncram:altsyncram_component" CBX_FILE_NAME="altsyncram_jti2.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_dc_top:or1200_dc_top|or1200_dc_ram:or1200_seed_ram|or1200_spram_32_bw:dc_ram|altsyncram:mem2_rtl_0" CBX_FILE_NAME="altsyncram_p6e1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_dmmu_top:or1200_dmmu_top|or1200_dmmu_tlb:or1200_dmmu_tlb|or1200_spram:dtlb_tr_ram|altsyncram:mem_rtl_0" CBX_FILE_NAME="altsyncram_50e1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_cpu:or1200_cpu|or1200_mult_mac:or1200_mult_mac|or1200_gmultp2_32x32:or1200_gmultp2_32x32|lpm_mult:Mult0" CBX_FILE_NAME="mult_u9t.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_dc_top:or1200_dc_top|or1200_dc_ram:or1200_dc_ram|or1200_spram_32_bw:dc_ram|altsyncram:mem3_rtl_0" CBX_FILE_NAME="altsyncram_v9e1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|orpsoc_top|or1200_top:or1200_top0|or1200_dc_top:or1200_dc_top|or1200_dc_ram:or1200_seed_ram|or1200_spram_32_bw:dc_ram|altsyncram:mem1_rtl_0" CBX_FILE_NAME="altsyncram_p6e1.tdf"/>
+	</PROJECT>
+</LOG_ROOT>

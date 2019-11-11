@@ -1,0 +1,28 @@
+//------------------------------
+// Module name: or1200_lsu_encEngine
+// Function: the encryption module located in lsu to encrypt the data
+// in byte-wise or word-wise from the register
+// unit to/from the cache memory
+// Creator:  Bony Chen
+// Version:  1.0
+// Date:    23 Jan 2015
+//------------------------------
+
+`include "or1200_defines.v"
+
+module or1200_lsu_encEngine(
+			    clk, rst,
+			    shift_op, encPad,
+			    plainIn, cipherOut
+			    );
+   
+   input clk;
+   input rst;
+
+   input [`shift_op_size-1:0] shift_op;
+   input [31:0] encPad;
+   input [31:0] plainIn;
+   output [31:0] cipherOut;
+
+   always @(plainIn or encPad or 
+   

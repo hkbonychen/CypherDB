@@ -1,0 +1,3 @@
+`define SYNTHESIS
+`define ALTERA
+
